@@ -104,7 +104,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    vim
     wget
     curl
     git
@@ -113,6 +113,22 @@
     neofetch
     cowsay
     ponysay
+    (vscode-with-extensions.override {
+      vscodeExtensions = with vscode-extensions; [
+        bbenoist.nix
+        ms-python.python
+        # ms-azuretools.vscode-docker
+        ms-vscode-remote.remote-ssh
+      ]
+      ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+        {
+          name = "remote-ssh-edit";
+          publisher = "ms-vscode-remote";
+          version = "0.86.0";
+          sha256 = "JsbaoIekUo2nKCu+fNbGlh5d1Tt/QJGUuXUGP04TsDI=";
+        }
+      ];
+    })
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
