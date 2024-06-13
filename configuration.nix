@@ -113,6 +113,13 @@
     neofetch
     cowsay
     ponysay
+    google-chrome
+    flameshot
+    lazydocker
+    docker
+    xournal
+    gnomeExtensions.settingscenter
+    gnomeExtensions.tactile
     (vscode-with-extensions.override {
       vscodeExtensions = with vscode-extensions; [
         bbenoist.nix
