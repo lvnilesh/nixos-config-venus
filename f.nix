@@ -124,6 +124,8 @@ services.qemuGuest.enable = true;
             htop
             git
             vim
+            btop
+            wget
           ];
         })
       ];
