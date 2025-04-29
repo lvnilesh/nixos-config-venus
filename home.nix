@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   # TODO please change the username & home directory to your own
   home.username = "cloudgenius";
   home.homeDirectory = "/home/cloudgenius";
@@ -26,75 +28,115 @@
     "Xft.dpi" = 218; # 172 for 4k;
   };
 
-  # Packages that should be installed to the user profile.
-  home.packages = with pkgs; [
-    # here is some command line tools I use frequently
-    # feel free to add your own or remove some of them
+  home.packages =
+    (with pkgs.gnomeExtensions; [
+      caffeine
+      tactile
+      paperwm
+      appindicator
+      dash-to-dock
+      vitals
+      # pop-shell
+      forge
+      blur-my-shell
+      gsconnect
+      quick-settings-tweaker
+    ])
+    ++ (with pkgs; [
+      # Packages that should be installed to the user profile.
 
-    neofetch
-    nnn # terminal file manager
+      # here is some command line tools I use frequently
+      # feel free to add your own or remove some of them
 
-    # archives
-    zip
-    xz
-    unzip
-    p7zip
+      neofetch
+      nnn # terminal file manager
 
-    # utils
-    ripgrep # recursively searches directories for a regex pattern
-    jq # A lightweight and flexible command-line JSON processor
-    yq-go # yaml processor https://github.com/mikefarah/yq
-    eza # A modern replacement for ‘ls’
-    fzf # A command-line fuzzy finder
+      # archives
+      zip
+      xz
+      unzip
+      p7zip
 
-    # networking tools
-    nmap
-    mtr # A network diagnostic tool
-    iperf3
-    dnsutils  # `dig` + `nslookup`
-    ldns # replacement of `dig`, it provide the command `drill`
-    aria2 # A lightweight multi-protocol & multi-source command-line download utility
-    socat # replacement of openbsd-netcat
-    nmap # A utility for network discovery and security auditing
-    ipcalc  # it is a calculator for the IPv4/v6 addresses
+      # utils
+      ripgrep # recursively searches directories for a regex pattern
+      jq # A lightweight and flexible command-line JSON processor
+      yq-go # yaml processor https://github.com/mikefarah/yq
+      eza # A modern replacement for ‘ls’
+      fzf # A command-line fuzzy finder
 
-    # misc
-    cowsay
-    file
-    which
-    tree
-    gnused
-    gnutar
-    gawk
-    zstd
-    gnupg
+      # networking tools
+      nmap
+      mtr # A network diagnostic tool
+      iperf3
+      dnsutils # `dig` + `nslookup`
+      ldns # replacement of `dig`, it provide the command `drill`
+      aria2 # A lightweight multi-protocol & multi-source command-line download utility
+      socat # replacement of openbsd-netcat
+      nmap # A utility for network discovery and security auditing
+      ipcalc # it is a calculator for the IPv4/v6 addresses
 
-    # nix related
-    #
-    # it provides the command `nom` works just like `nix`
-    # with more details log output
-    nix-output-monitor
+      # misc
+      cowsay
+      file
+      which
+      tree
+      gnused
+      gnutar
+      gawk
+      zstd
+      gnupg
 
-    # productivity
-    hugo # static site generator
-    glow # markdown previewer in terminal
+      # nix related
+      #
+      # it provides the command `nom` works just like `nix`
+      # with more details log output
+      nix-output-monitor
+      alejandra
 
-    btop  # replacement of htop/nmon
-    iotop # io monitoring
-    iftop # network monitoring
+      # productivity
+      hugo # static site generator
+      glow # markdown previewer in terminal
 
-    # system call monitoring
-    strace # system call monitoring
-    ltrace # library call monitoring
-    lsof # list open files
+      btop # replacement of htop/nmon
+      iotop # io monitoring
+      iftop # network monitoring
 
-    # system tools
-    sysstat
-    lm_sensors # for `sensors` command
-    ethtool
-    pciutils # lspci
-    usbutils # lsusb
-  ];
+      # system call monitoring
+      strace # system call monitoring
+      ltrace # library call monitoring
+      lsof # list open files
+
+      # system tools
+      sysstat
+      lm_sensors # for `sensors` command
+      ethtool
+      pciutils # lspci
+      usbutils # lsusb
+
+      # browsers
+      firefox-wayland
+      # Chrome Wayland support was broken on the nixos-unstable branch,
+      # so we fallback to the stable branch for now.
+      # Reference: https://github.com/swaywm/sway/issues/7562
+      google-chrome
+
+      azure-cli
+      awscli2
+
+      # notify
+      libgtop
+      # Add the .dev output for header files needed for compilation
+      libgtop.dev
+      dunst # notify-send
+      mako # notify-send
+      libnotify # notify-send
+      glib # notify-send
+    ]);
+
+  programs.vscode = {
+    enable = true;
+    package = pkgs.vscode;
+  };
 
   # basic configuration of git, please change to your own
   programs.git = {
@@ -123,7 +165,7 @@
       env.TERM = "xterm-256color";
       font = {
         size = 12;
-        draw_bold_text_with_bright_colors = true;
+        # draw_bold_text_with_bright_colors = true;
       };
       scrolling.multiplier = 5;
       selection.save_to_clipboard = true;
